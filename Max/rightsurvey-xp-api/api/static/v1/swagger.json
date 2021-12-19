@@ -1,0 +1,1307 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is the API documentation of RightSurvey XP RightCom Product.",
+    "version": "1.0.0",
+    "title": "RightSurvey API Documentation",
+    "termsOfService": "",
+    "contact": {
+      "email": ""
+    },
+    "license": {
+      "name": ""
+    }
+  },
+  "host": "betarsapi.right-com.com",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "survey",
+      "description": "Everything about your survey"
+    },
+    {
+      "name": "session",
+      "description": "Everything about checking current user session"
+    },
+    {
+      "name": "onboarding",
+      "description": "Everything about onboarding process"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/survey": {
+      "get": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Get list of your surveys",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Use this parameter if you need to filter the list of surveys base on the name of the survey",
+            "type": "string"
+          },
+          {
+            "name": "total",
+            "in": "query",
+            "description": "This is the maximum number of surveys to be returned",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "begin",
+            "in": "query",
+            "description": "Provide if wanted the starting position of the list returned.",
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/draft": {
+      "post": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Save your survey as draft",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Id of survey save as draft",
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "survey information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SurveyRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/{id}": {
+      "get": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Get one survey by id",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "viewid",
+            "in": "path",
+            "description": "Id of survey you would get",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/publish_survey/{id}": {
+      "put": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Publish one survey",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "viewid",
+            "in": "path",
+            "description": "Id of survey you would publish",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey_publish/{id}": {
+      "get": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Get survey publish by publish Id",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "publish id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/publish_id": {
+      "get": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Get publish id for one survey",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "viewid",
+            "in": "query",
+            "description": "publish id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/delete/{id}": {
+      "delete": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Delete one survey by id",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "viewid",
+            "in": "path",
+            "description": "Id of survey you would get",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/publish_qrcode/{id}/{template}": {
+      "put": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Publish survey with qr code",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "sio_channel",
+            "in": "query",
+            "description": "Name of the socket channel where response will be sent to",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "viewid of survey you would get",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "description": "template for qr code",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/save_publish_template": {
+      "post": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Save publish survey template",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "survey information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SavePublishSurveyTemplate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/publish_template/{id}": {
+      "get": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Get published survey template by survey id",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "survey id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/answer": {
+      "post": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Save response for an existing survey",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "survey response informations",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AnswerSurvey"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/answer_feedback": {
+      "get": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Get feedback on survey",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "viewid",
+            "in": "query",
+            "description": "It is a survey id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "periode",
+            "in": "query",
+            "description": "It is periode you want to get a feedback",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "today",
+              "last 7 days",
+              "last 30 days"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/question_list": {
+      "get": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Get list of survey questions",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "viewid",
+            "in": "query",
+            "description": "It is a survey id",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/answer_list": {
+      "get": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Get list of survey answers",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "viewid",
+            "in": "query",
+            "description": "It is a survey id",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/stats": {
+      "get": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Get stats for survey questions",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "viewid",
+            "in": "query",
+            "description": "It is a survey id",
+            "type": "string"
+          },
+          {
+            "name": "questionid",
+            "in": "query",
+            "description": "It is a question id",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/close_open_survey": {
+      "put": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Close or open a published survey",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "viewid",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "open",
+              "close"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/report": {
+      "get": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Let you to download an stat in format pdf or xlsx",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "viewid",
+            "in": "query",
+            "description": "It is a survey id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "questionid",
+            "in": "query",
+            "description": "It is a question id",
+            "type": "string"
+          },
+          {
+            "name": "file_type",
+            "in": "query",
+            "description": "format you want to export stats",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "pdf",
+              "xlsx"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/predefined_list": {
+      "get": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Get list of predefined values",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    },
+    "/survey/contact": {
+      "post": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Save contact on the response app",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "survey contact informations",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ContactSurvey"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent",
+            "schema": {
+              "$ref": "#/definitions/ContactSurvey"
+            }
+          }
+        }
+      }
+    },
+    "/survey/duplicate": {
+      "get": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Duplicate an survey by viewid",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "view",
+            "in": "query",
+            "description": "",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/export_contact": {
+      "post": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Export contact by viewid or without",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "viewids",
+            "in": "body",
+            "description": "Represent a list of contact viewid that you want to export",
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "body",
+            "description": "Represent the file type : pdf or xlsx",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "survey_id",
+            "in": "body",
+            "description": "Represent viewid of survey that you want to export all contact",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    },
+    "/survey/list_contact": {
+      "get": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Get list of contacts",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "viewid",
+            "in": "query",
+            "description": "",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    },
+    "/decoder": {
+      "get": {
+        "tags": [
+          "session"
+        ],
+        "summary": "Check and get connected user informations",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "sid",
+            "in": "query",
+            "description": "",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "app_id",
+            "in": "query",
+            "description": "",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "alias",
+            "in": "query",
+            "description": "",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/check_on_boarding": {
+      "get": {
+        "tags": [
+          "onboarding"
+        ],
+        "summary": "Get feedback for connected onboarding state",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "publickey",
+            "in": "header",
+            "description": "",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "apisid",
+            "in": "header",
+            "description": "",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "sessionid",
+            "in": "header",
+            "description": "",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/update_on_boarding": {
+      "put": {
+        "tags": [
+          "onboarding"
+        ],
+        "summary": "Update a connected user onboarding state",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "publickey",
+            "in": "header",
+            "description": "",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "apisid",
+            "in": "header",
+            "description": "",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "sessionid",
+            "in": "header",
+            "description": "",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/simple_qrcode": {
+      "put": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Get publish id for one survey and update survey status",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "viewid",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/logo": {
+      "post": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Save survey logo uploaded details",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SurveyLogoRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/welcome_page": {
+      "post": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Setup survey welcome page",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SurveyWelcomePageRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    },
+    "/survey/end_page": {
+      "post": {
+        "tags": [
+          "survey"
+        ],
+        "summary": "Setup survey end page",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SurveyEndPageRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid status value, Make sure all required parameters are sent"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "SurveyRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Survey name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Survey description"
+        },
+        "questions": {
+          "type": "array",
+          "description": "Survey question list",
+          "items": {
+            "type": "object",
+            "properties": {
+              "questionType": {
+                "type": "string",
+                "description": "Question description"
+              },
+              "questionOrder": {
+                "type": "integer",
+                "format": "int32",
+                "description": "Question order"
+              },
+              "questionId": {
+                "type": "integer",
+                "format": "int32",
+                "description": "Question id"
+              },
+              "questionDetails": {
+                "type": "object",
+                "description": "Question details",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Question detail name"
+                  },
+                  "shapeType": {
+                    "type": "string"
+                  },
+                  "shapeCount": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "labels": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "isRequired": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "entrypoint": {
+          "type": "string"
+        }
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "title": {
+          "type": "string"
+        },
+        "error": {
+          "type": "object"
+        },
+        "data": {
+          "type": "object"
+        }
+      }
+    },
+    "SavePublishSurveyTemplate": {
+      "type": "object",
+      "properties": {
+        "survey_id": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "name": {
+          "enum": [
+            "hotel rooms",
+            "restaurants",
+            "airlines",
+            "grocery store",
+            "car dealership"
+          ]
+        }
+      },
+      "required": [
+        "survey_id",
+        "image",
+        "name"
+      ]
+    },
+    "AnswerSurvey": {
+      "type": "object",
+      "properties": {
+        "viewid": {
+          "type": "string"
+        },
+        "answer": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "questionId": {
+                "type": "number"
+              },
+              "value": {
+                "type": [
+                  "number",
+                  "string",
+                  "boolean"
+                ]
+              },
+              "comment": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "questionId",
+              "value"
+            ]
+          }
+        },
+        "duration": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "viewid",
+        "answer",
+        "duration"
+      ]
+    },
+    "ContactSurvey": {
+      "type": "object",
+      "properties": {
+        "viewid": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "viewid",
+        "name",
+        "phone"
+      ]
+    },
+    "SurveyLogoRequest": {
+      "type": "object",
+      "properties": {
+        "viewid": {"type": "string"},
+        "link": {"type": "string"},
+        "display_size_option": {"type": "string"},
+        "position": {"type": "string"}
+      },
+      "required": ["viewid", "link", "display_size_option", "position"]
+    },
+    "SurveyWelcomePageRequest": {
+      "type": "object",
+      "properties": {
+        "viewid": {"type": "string"},
+        "option": {"type": "string", "enum": ["default", "custom"]},
+        "heading_text": {"type": "string"},
+        "message": {"type": "string"}
+      },
+      "required": ["viewid", "option", "heading_text", "message"]
+    },
+    "SurveyEndPageRequest": {
+      "type": "object",
+      "properties": {
+        "viewid": {"type": "string"},
+        "image": {"type": "string"},
+        "option": {"type": "string", "enum": ["default", "custom"]},
+        "heading_text": {"type": "string"},
+        "message": {"type": "string"}
+      },
+      "required": ["viewid", "image", "option", "heading_text", "message"]
+    }
+  }
+}

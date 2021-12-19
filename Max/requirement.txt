@@ -1,0 +1,26 @@
+We have an ongoing project for survey management, we are at last month of the project.
+1st milestone- Bug fixing for the payment integration and contact management features developed already.
+2nd milestone- Notification/alerts feature implementation
+3nd milestone- adding new question type for creating surveys along with report
+4th milestone- fix the bugs developed for milestone- 3 & 4...
+
+You would get two repo access, one is RightSurvey - Application access 
+and other one is RightPayment - Its payment backend application.
+
+Please kindly check this video link
+
+https://drive.google.com/file/d/1xOd7DQmSzfP99yg0vdyT3Od-2mKhuDVa/view?usp=sharing
+
+My old developer has fall sick so looking for replacement to deliver the project ontime... got it?
+
+Ok let's do in this way, 1st milestone to complete the bugs on subscriptions/contact management - get 20%
+2nd milestone- notification/alerts features-20%
+3rd milestone -custom question types for existing survey and report -20%
+4th milestone - plugin integration, and bug fixes
+
+I just want the work to be done, so I am with paying as per your convince..
+Just that I have to put the cost from my pocket , as we get paid from client on month ends 
+
+
+https://www.freelancer.com/projects/javascript/PHYTON-BACKEND-developer-with-falcon/details
+

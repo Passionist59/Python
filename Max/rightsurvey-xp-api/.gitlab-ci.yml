@@ -1,0 +1,128 @@
+image: python:3.6
+
+variables:
+    DOCKER_DRIVER: overlay2
+
+stages:
+  - build_dev
+  - deploy_dev
+  - build_staging
+  - deploy_staging
+  - build_prod
+  - deploy_prod
+
+build_dev:
+   image: docker:stable
+   stage: build_dev
+   services:
+    - docker:18.09.3-dind
+   before_script:
+    - export COMMIT=${CI_COMMIT_SHA:0:8}
+    - echo $COMMIT
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $REGISTRY_URL
+   script:
+    - docker build -t registry2.rightcomtech.com/rightsurvey/rightsurvey_api_dev:$COMMIT .
+    - docker push registry2.rightcomtech.com/rightsurvey/rightsurvey_api_dev:$COMMIT
+   after_script:
+    - docker logout
+   variables:
+    DOCKER_HOST: "tcp://10.10.14.116:2376"
+   only:
+    - develop
+
+deploy_dev:
+   image: docker:stable
+   stage: deploy_dev
+   services:
+    - docker:18.09.3-dind
+   before_script:
+    - export COMMIT=${CI_COMMIT_SHA:0:8}
+    - echo $COMMIT
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $REGISTRY_URL
+   script:
+    - docker service ps -q rightsurvey_xp_services_rs-api || exit_code=$?
+    - if [ $exit_code -ne 0 ]; then docker service create --name rightsurvey_xp_services_rs-api --constraint node.hostname==serveur12 --limit-memory=4GB -p 811:811 --network xp-network --env ENV=dev --env PUBLIC_DB_PWD=public --env ADMIN_DB_PWD=admin --mount type=volume,source=rs-api-reports,destination=/usr/src/app/reports --with-registry-auth registry2.rightcomtech.com/rightsurvey/rightsurvey_api_dev:$COMMIT; else docker service update --with-registry-auth --image registry2.rightcomtech.com/rightsurvey/rightsurvey_api_dev:$COMMIT rightsurvey_xp_services_rs-api; fi;
+   after_script:
+    - docker logout
+   variables:
+    DOCKER_HOST: "tcp://10.10.14.116:2376"
+   only:
+    - develop
+
+build_staging:
+   image: docker:stable
+   stage: build_staging
+   services:
+    - docker:18.09.3-dind
+   before_script:
+    - export COMMIT=${CI_COMMIT_SHA:0:8}
+    - echo $COMMIT
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $REGISTRY_URL
+   script:
+    - docker build -t registry2.rightcomtech.com/rightsurvey/rightsurvey_api_staging:$COMMIT .
+    - docker push registry2.rightcomtech.com/rightsurvey/rightsurvey_api_staging:$COMMIT
+   after_script:
+    - docker logout
+   variables:
+    DOCKER_HOST: "tcp://10.10.14.116:2376"
+   only:
+    - staging
+
+deploy_staging:
+   image: docker:stable
+   stage: deploy_staging
+   services:
+    - docker:18.09.3-dind
+   before_script:
+    - export COMMIT=${CI_COMMIT_SHA:0:8}
+    - echo $COMMIT
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $REGISTRY_URL
+   script:
+    - docker service ps -q rightsurvey_xp_services_staging_rs-api-staging || exit_code=$?
+    - if [ $exit_code -ne 0 ]; then docker service create --name rightsurvey_xp_services_staging_rs-api-staging --constraint node.hostname==serveur12 --limit-memory=3GB -p 1814:811 --network xp-staging-network --env ENV=staging --env PUBLIC_DB_PWD=public --env ADMIN_DB_PWD=admin --mount type=volume,source=rs-api-reports,destination=/usr/src/app/reports --with-registry-auth registry2.rightcomtech.com/rightsurvey/rightsurvey_api_staging:$COMMIT; else docker service update --with-registry-auth --image registry2.rightcomtech.com/rightsurvey/rightsurvey_api_staging:$COMMIT rightsurvey_xp_services_staging_rs-api-staging; fi;
+   after_script:
+    - docker logout
+   variables:
+    DOCKER_HOST: "tcp://10.10.14.116:2376"
+   only:
+    - staging
+
+build_prod:
+   image: docker:stable
+   stage: build_prod
+   services:
+    - docker:18.09.3-dind
+   before_script:
+    - export COMMIT=${CI_COMMIT_SHA:0:8}
+    - echo $COMMIT
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $REGISTRY_URL
+   script:
+    - docker build -t registry2.rightcomtech.com/rightsurvey/rightsurvey_api_prod:$COMMIT .
+    - docker push registry2.rightcomtech.com/rightsurvey/rightsurvey_api_prod:$COMMIT
+   after_script:
+    - docker logout
+   when: manual
+   variables:
+    DOCKER_HOST: "tcp://10.10.25.161:2376"
+   only:
+    - master
+
+deploy_prod:
+   image: docker:stable
+   stage: deploy_prod
+   services:
+    - docker:18.09.3-dind
+   before_script:
+    - export COMMIT=${CI_COMMIT_SHA:0:8}
+    - echo $COMMIT
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $REGISTRY_URL
+   script:
+    - docker service ps -q rs-api || exit_code=$?
+    - if [ $exit_code -ne 0 ]; then docker service create --name rs-api --constraint node.hostname==server14 --limit-memory=3GB -p 811:811 --network xp-network --env ENV=prod --env PUBLIC_DB_PWD=public --env ADMIN_DB_PWD=admin --mount type=volume,source=rs-api-reports,destination=/usr/src/app/reports --with-registry-auth registry2.rightcomtech.com/rightsurvey/rightsurvey_api_prod:$COMMIT; else docker service update --with-registry-auth --image registry2.rightcomtech.com/rightsurvey/rightsurvey_api_prod:$COMMIT rs-api; fi;
+   after_script:
+    - docker logout
+   when: manual
+   variables:
+    DOCKER_HOST: "tcp://10.10.25.161:2376"
+   only:
+    - master

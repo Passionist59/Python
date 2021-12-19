@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+  rs-api:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    image: registry.right-com.com/rightsurvey_api_prod:${VERSION}
+    ports:
+      - "811:811"
+    environment:
+      ENV: 'prod'
+      PUBLIC_DB_PWD: 'public'
+      ADMIN_DB_PWD: 'admin'
+    volumes:
+      - "rs-api-reports:/usr/src/app/reports"
+    networks:
+      - outside
+    deploy:
+      placement:
+        constraints: [node.hostname == server14]
+
+  mongo-rs-one:
+    container_name: mongo-rs-one
+    image: mongo:4
+    command: "mongod --replSet rs-mongo-set --oplogSize 16000"
+    volumes:
+      - mongo-one-data:/data/db
+    networks:
+      - outside
+    deploy:
+      placement:
+        constraints: [node.hostname == server14]
+
+  mongo-rs-two:
+    container_name: mongo-rs-two
+    image: mongo:4
+    command: "mongod --replSet rs-mongo-set --oplogSize 16000"
+    volumes:
+      - mongo-two-data:/data/db
+    networks:
+      - outside
+    deploy:
+      placement:
+        constraints: [node.hostname == server16]
+
+  rs-redis:
+    image: redis:5
+    volumes:
+      - rs-redis-data:/data
+    networks:
+      - outside
+    deploy:
+      placement:
+        constraints: [node.hostname == server16]
+
+volumes:
+  mongo-one-data:
+  mongo-two-data:
+  rs-redis-data:
+  rs-api-reports:
+
+networks:
+  outside:
+    external:
+      name: xp-network
